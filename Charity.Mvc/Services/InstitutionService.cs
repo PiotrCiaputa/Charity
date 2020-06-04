@@ -1,5 +1,5 @@
-﻿using Charity.Mvc.Models;
-using System;
+﻿using Charity.Mvc.Data;
+using Charity.Mvc.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,34 +8,46 @@ namespace Charity.Mvc.Services
 {
     public class InstitutionService : IInstitutionService
     {
-        public void AddInstitution(Institution institution)
+        private readonly AppDbContext _context;
+
+        public InstitutionService(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
         public List<Institution> GetAllInstitutions()
         {
-            throw new NotImplementedException();
+            return _context.Institutions.OrderBy(x => x.Id).ToList();
         }
+
+        public void AddInstitution(Institution institution)
+        {
+            _context.Institutions.Add(institution);
+        }        
 
         public Institution GetInstitution(int? id)
         {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveInstitution(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> SaveChangesAsync()
-        {
-            throw new NotImplementedException();
+            return _context.Institutions.FirstOrDefault(x => x.Id == id);
         }
 
         public void UpdateInstitution(Institution institution)
         {
-            throw new NotImplementedException();
+            _context.Institutions.Update(institution);
         }
+
+        public void RemoveInstitution(int id)
+        {
+            _context.Institutions.Remove(GetInstitution(id));
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }        
     }
 }

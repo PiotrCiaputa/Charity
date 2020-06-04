@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Charity.Mvc.Data;
+using Charity.Mvc.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,9 @@ namespace Charity.Mvc
 			services.AddDbContext<AppDbContext>(options =>
 			   options.UseSqlServer(
 				   Configuration.GetConnectionString("DefaultConnection")));
+			services.AddTransient<IDonationService, DonationService>();
+			services.AddTransient<ICategoryService, CategoryService>();
+			services.AddTransient<IInstitutionService, InstitutionService>();
 			services.AddMvc();
 		}
 

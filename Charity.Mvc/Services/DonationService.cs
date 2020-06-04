@@ -1,5 +1,5 @@
-﻿using Charity.Mvc.Models;
-using System;
+﻿using Charity.Mvc.Data;
+using Charity.Mvc.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,34 +8,46 @@ namespace Charity.Mvc.Services
 {
     public class DonationService : IDonationService
     {
-        public void AddDonation(Donation donation)
+        private readonly AppDbContext _context;
+
+        public DonationService(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
         public List<Donation> GetAllDonations()
         {
-            throw new NotImplementedException();
+            return _context.Donations.OrderBy(x => x.Institution).ToList();
         }
 
-        public Category GetDonation(int? id)
+        public void AddDonation(Donation donation)
         {
-            throw new NotImplementedException();
-        }
+            _context.Donations.Add(donation);
+        }        
 
-        public void RemoveDonation(int id)
+        public Donation GetDonation(int? id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> SaveChangesAsync()
-        {
-            throw new NotImplementedException();
+            return _context.Donations.FirstOrDefault(x => x.Id == id);
         }
 
         public void UpdateDonation(Donation donation)
         {
-            throw new NotImplementedException();
+            _context.Donations.Update(donation);
         }
+
+        public void RemoveDonation(int id)
+        {
+            _context.Donations.Remove(GetDonation(id));
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }        
     }
 }

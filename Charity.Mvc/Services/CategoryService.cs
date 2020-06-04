@@ -1,5 +1,5 @@
-﻿using Charity.Mvc.Models;
-using System;
+﻿using Charity.Mvc.Data;
+using Charity.Mvc.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,34 +8,45 @@ namespace Charity.Mvc.Services
 {
     public class CategoryService : ICategoryService
     {
-        public void AddCategory(Category category)
+        private readonly AppDbContext _context;
+
+        public CategoryService(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
         public List<Category> GetAllCategories()
         {
-            throw new NotImplementedException();
+            return _context.Categories.OrderBy(x => x.Name).ToList();
         }
+
+        public void AddCategory(Category category)
+        {
+            _context.Categories.Add(category);
+        }        
 
         public Category GetCategory(int? id)
         {
-            throw new NotImplementedException();
+            return _context.Categories.FirstOrDefault(x => x.Id == id);
+        }
+        public void UpdateCategory(Category category)
+        {
+            _context.Categories.Update(category);
         }
 
         public void RemoveCategory(int id)
         {
-            throw new NotImplementedException();
+            _context.Categories.Remove(GetCategory(id));
         }
 
-        public Task<bool> SaveChangesAsync()
+        public async Task<bool> SaveChangesAsync()
         {
-            throw new NotImplementedException();
-        }
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return true;
+            }
 
-        public void UpdateCategory(Category category)
-        {
-            throw new NotImplementedException();
-        }
+            return false;
+        }        
     }
 }
