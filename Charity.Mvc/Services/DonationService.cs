@@ -17,7 +17,13 @@ namespace Charity.Mvc.Services
 
         public List<Donation> GetAllDonations()
         {
-            return _context.Donations.OrderBy(x => x.Institution).ToList();
+            return _context.Donations.OrderBy(x => x.Quantity).ToList();
+        }
+
+        public int GetDonationsQuantity()
+        {
+            var quantity = _context.Donations.Select(x => x.Quantity).ToList().Sum();
+            return (int)quantity;
         }
 
         public void AddDonation(Donation donation)

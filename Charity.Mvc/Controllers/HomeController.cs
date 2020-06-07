@@ -13,16 +13,21 @@ namespace Charity.Mvc.Controllers
 	public class HomeController : Controller
 	{
 		private readonly IInstitutionService _institutionService;
+		private readonly IDonationService _donationService;
 
-        public HomeController(IInstitutionService institutionService)
+        public HomeController(IInstitutionService institutionService,
+							  IDonationService donationService)
 		{
 			_institutionService = institutionService;
+			_donationService = donationService;
         }
 		public IActionResult Index()
 		{
-			var model = new InstitutionViewModel()
+			var model = new IndexViewModel()
 			{
-				Institutions = _institutionService.GetAllInstitutions()
+				Institutions = _institutionService.GetAllInstitutions(),
+				Quantity = _donationService.GetDonationsQuantity(),
+				InstitutionsQuantity = _institutionService.InstitutionsQuantity()
 			};
 
 			return View(model);

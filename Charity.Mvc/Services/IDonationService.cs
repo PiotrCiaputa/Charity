@@ -7,6 +7,7 @@ namespace Charity.Mvc.Services
     public interface IDonationService
     {
         List<Donation> GetAllDonations();
+        int GetDonationsQuantity();
         void AddDonation(Donation donation);
         Donation GetDonation(int? id);
         void UpdateDonation(Donation donation);
