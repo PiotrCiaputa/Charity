@@ -27,7 +27,7 @@ namespace Charity.Mvc.Controllers
 			{
 				Institutions = _institutionService.GetAllInstitutions(),
 				Quantity = _donationService.GetDonationsQuantity(),
-				InstitutionsQuantity = _institutionService.InstitutionsQuantity()
+				SupportedInstitutions = _donationService.SupportedInstitutions()		
 			};
 
 			return View(model);

@@ -7,6 +7,9 @@ namespace Charity.Mvc.ViewModels
     {
         public IEnumerable<Institution> Institutions { get; set; }
         public int Quantity { get; set; }
-        public int InstitutionsQuantity { get; set; }
+        public int SupportedInstitutions { get; set; }
+
+        public IEnumerable<Category> Categories { get; set; }
+        public Donation Donation { get; set; }
     }
 }

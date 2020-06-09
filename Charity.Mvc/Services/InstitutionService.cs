@@ -20,11 +20,6 @@ namespace Charity.Mvc.Services
             return _context.Institutions.OrderBy(x => x.Id).ToList();
         }
 
-        public int InstitutionsQuantity()
-        {
-            return _context.Institutions.ToList().Count;
-        }
-
         public void AddInstitution(Institution institution)
         {
             _context.Institutions.Add(institution);

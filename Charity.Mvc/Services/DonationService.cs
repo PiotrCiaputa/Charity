@@ -1,7 +1,9 @@
 ﻿using Charity.Mvc.Data;
 using Charity.Mvc.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace Charity.Mvc.Services
@@ -17,13 +19,18 @@ namespace Charity.Mvc.Services
 
         public List<Donation> GetAllDonations()
         {
-            return _context.Donations.OrderBy(x => x.Quantity).ToList();
+            return _context.Donations.ToList();
         }
 
         public int GetDonationsQuantity()
         {
             var quantity = _context.Donations.Select(x => x.Quantity).ToList().Sum();
             return (int)quantity;
+        }
+        public int SupportedInstitutions()
+        {
+            var institutions = _context.Donations.Select(x => x.InstitutionId).ToList().Count;
+            return institutions;            
         }
 
         public void AddDonation(Donation donation)

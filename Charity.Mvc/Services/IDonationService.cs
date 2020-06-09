@@ -8,6 +8,7 @@ namespace Charity.Mvc.Services
     {
         List<Donation> GetAllDonations();
         int GetDonationsQuantity();
+        int SupportedInstitutions();
         void AddDonation(Donation donation);
         Donation GetDonation(int? id);
         void UpdateDonation(Donation donation);
