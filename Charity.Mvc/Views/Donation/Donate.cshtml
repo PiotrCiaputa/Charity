@@ -1,167 +1,203 @@
 ﻿@model IndexViewModel
-
 @{
-    
+
 }
 
-<section id="stats" class="stats">
-    <div class="container container--85">
-        <div class="stats--item">
-
-            <em>@Model.Quantity</em>
-
-            <h3>Oddanych worków</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius est beatae, quod accusamus illum tempora!</p>
+<section class="form--steps">
+    <div class="form--steps-instructions">
+        <div class="form--steps-container">
+            <h3>Ważne!</h3>
+            <p data-step="1" class="active">
+                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
+                wiedzieć komu najlepiej je przekazać.
+            </p>
+            <p data-step="2">
+                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
+                wiedzieć komu najlepiej je przekazać.
+            </p>
+            <p data-step="3">
+                Wybierz jedną, do
+                której trafi Twoja przesyłka.
+            </p>
+            <p data-step="4">Podaj adres oraz termin odbioru rzeczy.</p>
         </div>
-
-        <div class="stats--item">
-
-            <em>@Model.SupportedInstitutions</em>
-
-            <h3>Wspartych organizacji</h3>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam magnam, sint nihil cupiditate quas quam.</p>
-        </div>
-
     </div>
-</section>
 
+    <div class="form--steps-container">
+        <div class="form--steps-counter">Krok <span>1</span>/4</div>
 
-
-
-<section id="steps" class="steps">
-    <h2>Wystarczą 4 proste kroki</h2>
-
-    <div class="steps--container">
-        <form asp-controller="Donation" asp-action="Donate" method="post">
-            <div class="steps--item">
-                <h3> Wybierz rzeczy</h3>
+        <form asp-controlller="Donation" asp-action="Donate" method="post">
+            <!-- STEP 1: class .active is switching steps -->
+            <div data-step="1" class="active">
+                <h3>Zaznacz co chcesz oddać:</h3>
                 @foreach (var item in Model.Categories)
                 {
 
-                    <input type="checkbox" name="@item.Name" value="@item.Id" />@item.Name
+                <div class="form-group form-group--checkbox">
+                    <label>
+                        <input type="checkbox"
+                               name="categories"
+                               value="clothes-to-use" />
+                        <span class="checkbox"></span>
+                        <span class="description">@item.Name</span>
+                    </label>
+                </div>
+                }               
 
-                }
-                <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Przejdź dalej</a>
+                <div class="form-group form-group--buttons">
+                    <button type="button" class="btn next-step">Dalej</button>
+                </div>
             </div>
-            <div class="steps--item">
-                <h3>Spakuj je</h3>
-                <p>skorzystaj z worków na śmieci</p>
-                <label>Podaj ilość worków</label>
-                <input type="number" value="@Model.Quantity" min="1" />
-                <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Przejdź dalej</a>
+
+            <!-- STEP 2 -->
+            <div data-step="2">
+                <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
+
+                <div class="form-group form-group--inline">
+                    <label>
+                        Liczba 60l worków:
+                        <input type="number" name="bags" step="1" min="1" asp-for="@Model.Quantity" />
+                    </label>
+                </div>
+
+                <div class="form-group form-group--buttons">
+                    <button type="button" class="btn prev-step">Wstecz</button>
+                    <button type="button" class="btn next-step">Dalej</button>
+                </div>
             </div>
-            <div class="steps--item">
-                <h3>Zdecyduj komu chcesz pomóc</h3>
-                <p>wybierz zaufane miejsce</p>
+
+
+            <!-- STEP 3 -->
+            <div data-step="3">
+                <h3>Wybierz organizacje, której chcesz pomóc:</h3>
                 @foreach (var item in Model.Institutions)
                 {
+                    <div class="form-group form-group--checkbox">
+                        <label>
+                            <input type="radio" name="organization" value="old" />
+                            <span class="checkbox radio"></span>
+                            <span class="description">
+                                <div class="title">@item.Name</div>
+                                <div class="subtitle">
+                                    @item.Description
+                                </div>
+                            </span>
+                        </label>
+                    </div>
+                }               
 
-                    <input type="checkbox" name="@item.Name" />@item.Name
-
-                }
-                <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Przejdź dalej</a>
-            </div>
-            <div class="steps--item">
-                <h3>Zamów kuriera</h3>
-                <p>kurier przyjedzie w dogodnym terminie</p>
-                <div class="form-group">
-                    <label asp-for="Donation.Street"></label>
-                    <input class="form-control" asp-for="Donation.Street" />
-                    <span asp-validation-for="Donation.Street"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Donation.City"></label>
-                    <textarea id="editor" asp-for="Donation.City"></textarea>
-                    <span asp-validation-for="Donation.City"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Donation.ZipCode"></label>
-                    <input class="form-control" asp-for="Donation.ZipCode" />
-                    <span asp-validation-for="Donation.ZipCode"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Donation.PickUpDate"></label>
-                    <input type="date" class="form-control" asp-for="Donation.PickUpDate" />
-                    <span asp-validation-for="Donation.PickUpDate"></span>
+                <div class="form-group form-group--buttons">
+                    <button type="button" class="btn prev-step">Wstecz</button>
+                    <button type="button" class="btn next-step">Dalej</button>
                 </div>
             </div>
-            <input type="submit" value="Wyślij" class="btn btn-danger" />
+
+            <!-- STEP 4 -->
+            <div data-step="4">
+                <h3>Podaj adres oraz termin odbioru rzeczy przez kuriera:</h3>
+
+                <div class="form-section form-section--columns">
+                    <div class="form-section--column">
+                        <h4>Adres odbioru</h4>
+                        <div class="form-group form-group--inline">
+                            <label> Ulica <input type="text" name="address" asp-for="@Model.Donation.Street"/> </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label> Miasto <input type="text" name="city" asp-for="@Model.Donation.City /> </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Kod pocztowy <input type="text" name="postcode" asp-for="@Model.Donation.ZipCode />
+                            </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Numer telefonu <input type="phone" name="phone"/>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-section--column">
+                        <h4>Termin odbioru</h4>
+                        <div class="form-group form-group--inline">
+                            <label> Data <input type="date" name="data" /> </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label> Godzina <input type="time" name="time" /> </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Uwagi dla kuriera
+                                <textarea name="more_info" rows="5"></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group--buttons">
+                    <button type="button" class="btn prev-step">Wstecz</button>
+                    <button type="button" class="btn next-step">Dalej</button>
+                </div>
+            </div>
+
+            <!-- STEP 5 -->
+            <div data-step="5">
+                <h3>Podsumowanie Twojej darowizny</h3>
+
+                <div class="summary">
+                    <div class="form-section">
+                        <h4>Oddajesz:</h4>
+                        <ul>
+                            <li>
+                                <span class="icon icon-bag"></span>
+                                <span class="summary--text">4 worki ubrań w dobrym stanie dla dzieci</span>
+                            </li>
+
+                            <li>
+                                <span class="icon icon-hand"></span>
+                                <span class="summary--text">Dla fundacji "Mam marzenie" w Warszawie</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="form-section form-section--columns">
+                        <div class="form-section--column">
+                            <h4>Adres odbioru:</h4>
+                            <ul>
+                                <li>Prosta 51</li>
+                                <li>Warszawa</li>
+                                <li>99-098</li>
+                                <li>123 456 789</li>
+                            </ul>
+                        </div>
+
+                        <div class="form-section--column">
+                            <h4>Termin odbioru:</h4>
+                            <ul>
+                                <li>13/12/2018</li>
+                                <li>15:40</li>
+                                <li>Brak uwag</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group form-group--buttons">
+                    <button type="button" class="btn prev-step">Wstecz</button>
+                    <button type="submit" class="btn">Potwierdzam</button>
+                </div>
+            </div>
         </form>
     </div>
-
-
-
-
-
-
-
-
-
-
-    <a href="#" class="btn btn--large">Załóż konto</a>
 </section>
 
-<section id="about-us" class="about-us">
-    <div class="about-us--text">
-        <h2>O nas</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas vitae animi rem pariatur incidunt libero optio esse quisquam illo omnis.</p>
-        <img src="~/images/signature.svg" class="about-us--text-signature" alt="Signature" />
-    </div>
-    <div class="about-us--image"><img src="~/images/about-us.jpg" alt="People in circle" /></div>
-</section>
+@section scripts{ 
 
-<section id="help" class="help">
-    <h2>Komu pomagamy?</h2>
+    <script src="~/js/site.js"></script>
+    <script src="~/js/app.js"></script>
 
-    <!-- SLIDE 1 -->
-    <div class="help--slides active" data-id="1">
-        <p>
-            W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy.
-            Możesz sprawdzić czym się zajmują.
-        </p>
-
-        <ul class="help--slides-items">
-
-            <li>
-                @foreach (var item in Model.Institutions)
-                {
-
-                    @if (item.Id % 2 == 1)
-                    {
-                        <div class="col">
-                            <div class="title">@item.Name</div>
-                            <div class="subtitle">
-                                @item.Description
-                            </div>
-                        </div>
-
-                    }
-
-                }
-            </li>
-            <li>
-                @foreach (var item in Model.Institutions)
-                {
-
-                    @if (item.Id % 2 == 0)
-                    {
-                        <div class="col">
-                            <div class="title">@item.Name</div>
-                            <div class="subtitle">
-                                @item.Description
-                            </div>
-                        </div>
-
-                    }
-                }
-
-            </li>
-
-        </ul>
-
-    </div>
-
-</section>
+}

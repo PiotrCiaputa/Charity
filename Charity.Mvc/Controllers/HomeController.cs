@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Charity.Mvc.Models;
+﻿using Charity.Mvc.Models;
 using Charity.Mvc.Services;
 using Charity.Mvc.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace Charity.Mvc.Controllers
 {
-	public class HomeController : Controller
+    public class HomeController : Controller
 	{
 		private readonly IInstitutionService _institutionService;
 		private readonly IDonationService _donationService;

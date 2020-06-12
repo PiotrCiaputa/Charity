@@ -6,6 +6,7 @@ using Charity.Mvc.Models;
 using Charity.Mvc.Services;
 using Charity.Mvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Charity.Mvc.Controllers
 {
@@ -23,15 +24,16 @@ namespace Charity.Mvc.Controllers
             _donationService = donationService;
         }
         public IActionResult Donate()
-        {
+        {            
             var model = new IndexViewModel()
-            {
+            {      
                 Categories = _categoryService.GetAllCategories(),
                 Institutions = _institutionService.GetAllInstitutions(),
                 Quantity = _donationService.GetDonationsQuantity(),
                 SupportedInstitutions = _donationService.SupportedInstitutions(),
-                Donation = _donationService.GetDonation(0)
-            };
+                Donation = _donationService.GetDonation(0),
+                Donations = _donationService.GetAllDonations()
+            };            
 
             return View(model);
         } 
@@ -41,8 +43,16 @@ namespace Charity.Mvc.Controllers
         {
             var donation = new Donation
             {
-
+                
             };
+
+            if (ModelState.IsValid)
+            {
+                _donationService.AddDonation(donation);
+               _donationService.SaveChangesAsync();
+
+                return RedirectToAction("Index", "Home");
+            }
 
             return RedirectToAction("Index", "Home");
         }

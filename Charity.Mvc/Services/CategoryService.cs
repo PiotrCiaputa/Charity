@@ -17,7 +17,7 @@ namespace Charity.Mvc.Services
 
         public List<Category> GetAllCategories()
         {
-            return _context.Categories.OrderBy(x => x.Name).ToList();
+            return _context.Categories.OrderBy(x => x.Id).ToList();
         }
 
         public void AddCategory(Category category)
