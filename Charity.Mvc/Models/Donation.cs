@@ -13,9 +13,9 @@ namespace Charity.Mvc.Models
         public string Street { get; set; }
         public string City { get; set; }
         public string ZipCode { get; set; }
-        public DateTime PickUpDate { get; set; } = DateTime.UtcNow;
-        public DateTime PickUpTime { get; set; } = DateTime.UtcNow;
-        public DateTime PickUpComment { get; set; } = DateTime.UtcNow;
+        public DateTime PickUpDate { get; set; } 
+        public DateTime PickUpTime { get; set; } 
+        public DateTime PickUpComment { get; set; }
 
         public List<Category> Categories { get; set; }
 

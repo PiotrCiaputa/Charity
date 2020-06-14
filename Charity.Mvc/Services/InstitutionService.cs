@@ -1,5 +1,6 @@
 ﻿using Charity.Mvc.Data;
 using Charity.Mvc.Models;
+using Charity.Mvc.Models.Select;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -49,6 +50,15 @@ namespace Charity.Mvc.Services
 
             return false;
         }
-        
+
+        public List<InstitutionSelect> SelectInstitutions()
+        {
+            return _context.Institutions.Select(x => new InstitutionSelect
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description
+            }).ToList();
+        }
     }
 }

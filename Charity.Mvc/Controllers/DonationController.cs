@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Charity.Mvc.Models;
+﻿using Charity.Mvc.Models;
 using Charity.Mvc.Services;
 using Charity.Mvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
 
 namespace Charity.Mvc.Controllers
 {
@@ -24,16 +21,18 @@ namespace Charity.Mvc.Controllers
             _donationService = donationService;
         }
         public IActionResult Donate()
-        {            
-            var model = new IndexViewModel()
-            {      
-                Categories = _categoryService.GetAllCategories(),
-                Institutions = _institutionService.GetAllInstitutions(),
-                Quantity = _donationService.GetDonationsQuantity(),
+        {
+            var model = new DonationViewModel()
+            {
+                Institutions = _institutionService.SelectInstitutions(),
                 SupportedInstitutions = _donationService.SupportedInstitutions(),
                 Donation = _donationService.GetDonation(0),
                 Donations = _donationService.GetAllDonations()
-            };            
+            };
+
+            model.Categories = _categoryService.GetAllCategories()
+                        .Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString(), Selected = false }).ToList();
+            
 
             return View(model);
         } 

@@ -22,15 +22,9 @@ namespace Charity.Mvc.Services
             return _context.Donations.ToList();
         }
 
-        public int GetDonationsQuantity()
-        {
-            var quantity = _context.Donations.Select(x => x.Quantity).ToList().Sum();
-            return (int)quantity;
-        }
         public int SupportedInstitutions()
         {
-            var institutions = _context.Donations.Select(x => x.InstitutionId).ToList().Count;
-            return institutions;            
+            return _context.Donations.Select(x => x.InstitutionId).Distinct().Count();                        
         }
 
         public void AddDonation(Donation donation)
@@ -61,6 +55,13 @@ namespace Charity.Mvc.Services
             }
 
             return false;
-        }        
+        }
+
+        public int GetQuantity()
+        {
+            var quantity = _context.Donations.Select(x => x.Quantity).ToList().Sum();
+
+            return (int)quantity;
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace Charity.Mvc.Controllers
 			var model = new IndexViewModel()
 			{
 				Institutions = _institutionService.GetAllInstitutions(),
-				Quantity = _donationService.GetDonationsQuantity(),
+				Quantity = _donationService.GetQuantity(),
 				SupportedInstitutions = _donationService.SupportedInstitutions()		
 			};
 
